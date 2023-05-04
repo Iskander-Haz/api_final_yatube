@@ -28,11 +28,11 @@ class PostViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
+    permission_classes = (OwnerOrReadOnly,)
+
     def get_queryset(self):
         post_id = self.kwargs.get('post_id')
-        return Comment.objects.filter(post=post_id)    # post.comment.all()
-
-    permission_classes = (OwnerOrReadOnly,)
+        return Comment.objects.filter(post=post_id)
 
     def perform_create(self, serializer):
         post_id = self.kwargs.get('post_id')
